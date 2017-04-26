@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<meta name="description" content="The simple image composer!">
+  	<meta name="author" content="K.C.">
+
+  	<title></title>
+  	<link rel="icon" type="image/png" href="favicon.ico?1" />
+  	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+
+  	<!-- Normalize CSS -->
+  	<link rel="stylesheet" href="n.css">
+  	<link rel="stylesheet" href="standard.css">
+
+    <!-- Vue JS lib -->
+
+    <script src="dotimg.js"></script>
+    <script src="vues.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+
+      <h1>.img | The simple image composer!</h1>
+      <p><strong>.img</strong> (pronounced <strong>“dot image”</strong>) is a powerful and versatile, yet easy to use image composer. Just add some pictures from your computer to your collection, and place them on your final composition. Crop, merge, add some text and effects and you're done! You can save your settings to create a series of preset pictures, useful for anyone looking to preserve a graphical identity.</p>
+
+      <h2>My collection</h2>
+      <div id="thumbnails">
+        <!-- THUMBNAILS ARE DISPLAYED HERE -->
+      </div>
+      <div style="clear:both"></div>
+
+      <label for="_xpic" class="pictureAdd">+</label>
+      <input id="_xpic" type="file" class="pictureInput">
+
+      <p>Click on the square to add a picture to your collection. Once it is loaded into .img, you can click on the thumbnail to modify it.</p>
+      <input type="text" placeholder="Title" onchange="SetWindowTitle(this.value)">
+    </div>
+  </body>
+</html>

@@ -56,7 +56,7 @@ body{
 }
 
 .thumbnailCanvas:hover{
-	border : 2px solid #c9462c;
+	border : 2px solid #ffa336;
 }
 
 h1{
@@ -69,8 +69,15 @@ h1{
 	padding : 5px 0;
 }
 
-@media (min-width:800px){
+#displayCanvas{
+	display : none;
+	margin : auto;
+	position : relative;
+	left : -50%;
+}
+
+@media (min-width:880px){
 	#content{
-		width: 800px;
+		width: 880px;
 	}
 }

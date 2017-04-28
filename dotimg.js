@@ -37,7 +37,7 @@ var previewMode = false;
 var screenWidth = 0;
 var screenHeight = 0;
 
-function NewCanvas(e){
+function NewThumbnail(){
   iCanvas++;
   var cDOM = document.createElement("canvas");
   cDOM.setAttribute("id", iCanvas +"c");
@@ -45,6 +45,20 @@ function NewCanvas(e){
   cDOM.setAttribute("width", "100");
   cDOM.setAttribute("height", "100");
   document.getElementById("thumbnails").appendChild(cDOM);
+
+  var transparency = new Image();
+  transparency.src = 'transparent.png';
+  var ctx = document.getElementById(iCanvas +"c").getContext('2d');
+
+  transparency.onload = function(){
+      var ptrn = ctx.createPattern(transparency, 'repeat');
+      ctx.fillStyle = ptrn;
+      ctx.fillRect(0, 0, 100, 100);
+  }
+}
+
+function NewCanvas(e){
+  NewThumbnail();
 
   var ctx = document.getElementById(iCanvas +"c").getContext('2d');
   var reader = new FileReader();
@@ -60,6 +74,22 @@ function NewCanvas(e){
   }
 
   reader.readAsDataURL(e.target.files[0]);
+}
+
+function RenderPresetCollection(){
+  for(i=0; i<storedCollection.length; i++){
+      NewThumbnail();
+      var ctx = document.getElementById(iCanvas +"c").getContext('2d');
+
+      var img = new Image();
+      img.onload = function(){
+        wh = OptimisedCropping(img.width, img.height, 100, 100);
+        ctx.drawImage(img, wh[2], wh[3], img.width, img.height, 0, 0, wh[0], wh[1]);
+      }
+
+      img.src = "presets/" + storedCollection[i];
+      imgStorage[iCanvas] = img;
+  }
 }
 
 function DisplayThumbnail(id){
@@ -100,6 +130,7 @@ window.onload = function(){
   SetWindowTitle("");
   document.getElementById('_xpic').addEventListener('change', NewCanvas, false);
   SetScreenSize();
+  RenderPresetCollection();
 }
 
 window.onresize = function(){

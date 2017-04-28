@@ -12,3 +12,5 @@ The main idea behind this tool is to provide a complete "clone to go" html inter
 ## Credits
 * [Normalize CSS (n.css)](http://github.com/necolas/normalize.css)
 * [Dosis (font)](http://fonts.google.com/specimen/Dosis)
+
+Because I mainly work on this for fun in my free time, bugfixes and features development are subject to delays.

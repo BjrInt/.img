@@ -77,17 +77,18 @@ function NewCanvas(e){
 }
 
 function RenderPresetCollection(){
+  var imgs = new Array();
   for(i=0; i<storedCollection.length; i++){
       NewThumbnail();
       var ctx = document.getElementById(iCanvas +"c").getContext('2d');
 
-      var img = new Image();
+      img = new Image();
+      img.src = "presets/" + storedCollection[i];
       img.onload = function(){
         wh = OptimisedCropping(img.width, img.height, 100, 100);
         ctx.drawImage(img, wh[2], wh[3], img.width, img.height, 0, 0, wh[0], wh[1]);
       }
 
-      img.src = "presets/" + storedCollection[i];
       imgStorage[iCanvas] = img;
   }
 }

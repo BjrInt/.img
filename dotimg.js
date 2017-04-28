@@ -151,7 +151,7 @@ document.addEventListener('click', function(event) {
   }
 });
 
-document.onkeypress = function(evt) {
+document.onkeydown = function(evt) {
     evt = evt || window.event;
     var charCode = evt.keyCode || evt.which;
 

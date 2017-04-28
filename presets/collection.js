@@ -14,3 +14,15 @@
 var storedCollection = new Array();
   storedCollection.push("collection/bjrintlogolight.png");
   storedCollection.push("collection/bjrintlogodark.png");
+
+
+/*
+  ***********************************************
+                    FONTS
+  ***********************************************
+*/
+
+var storedFonts = new Array();
+  storedFonts["Dosis"] = "fonts/Dosis.ttf";
+  storedFonts["Kurale"] = "fonts/Kurale.ttf";
+  storedFonts["Oswald"] = "fonts/Oswald.ttf";

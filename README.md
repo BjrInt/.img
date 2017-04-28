@@ -11,6 +11,6 @@ The main idea behind this tool is to provide a complete "clone to go" html inter
 
 ## Credits
 * [Normalize CSS (n.css)](http://github.com/necolas/normalize.css)
-* [Dosis (font)](http://fonts.google.com/specimen/Dosis)
+* Dosis, Oswald, Kurale (fonts) under the [Open Font License (OFL)](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)
 
 Because I mainly work on this for fun in my free time, bugfixes and features development are subject to delays.

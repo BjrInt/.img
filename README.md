@@ -16,7 +16,7 @@ Your collection stands for all the files that you've added to the browser via th
 (coming soon)
 
 ### Preloaded collection
-It is possible to add custom pictures to your collection, those pictures will be loaded each time you load the page, does saving tremendous amount of time working with logos or other type of recurring material.
+It is possible to add custom pictures to your collection, those pictures will be loaded each time you load the page, thus saving tremendous amount of time working with logos or other type of recurring material.
 Simply add pictures in the *presets/collection* directory then push the array in the *presets/collection.js*, it's as simple as that! You can also add custom fonts using the same principle.
 
 ## Todo list

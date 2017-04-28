@@ -47,7 +47,7 @@ function NewThumbnail(){
   document.getElementById("thumbnails").appendChild(cDOM);
 
   var transparency = new Image();
-  transparency.src = 'transparent.png';
+  transparency.src = 'theme/transparent.png';
   var ctx = document.getElementById(iCanvas +"c").getContext('2d');
 
   transparency.onload = function(){

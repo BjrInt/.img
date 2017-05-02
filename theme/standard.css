@@ -20,12 +20,34 @@ body{
   font-family: 'Dosis', sans-serif;
 }
 
+.blurredbackground {
+  -webkit-filter: blur(10px);
+  filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
 #content{
-	width : 100%;
+	width : 880px;
 	text-align: justify;
 	font-size: 20px;
 	line-height: 30px;
 	margin : auto;
+}
+
+#labheader{
+  height : 155px;
+  width : 100%;
+  line-height: 155px;
+  font-size : 120px;
+  text-align: center;
+  background-color: #FFF;
+}
+
+#lablogo{
+  height : 155px;
+  width : 123px;
+  float: left;
+  background: url(bjrlablogo.png) no-repeat;
 }
 
 .pictureAdd{
@@ -41,6 +63,8 @@ body{
 	font-size: 50px;
 	display: block;
 	font-family: Arial;
+  float : left;
+	margin : 0 6px 6px 0;
 }
 
 .pictureAdd:hover{
@@ -79,10 +103,243 @@ h1{
 	margin : auto;
 	position : relative;
 	left : -50%;
+  border : 3px solid #ffa336;
+  z-index: 80;
 }
 
-@media (min-width:880px){
-	#content{
-		width: 880px;
-	}
+.btn{
+  background: #FFF;
+  background-image: linear-gradient(to bottom, #FFF, #CCC);
+  border-radius: 10px;
+  color: #999;
+  font-size: 20px;
+  padding: 10px 10px 10px 10px;
+  border: solid #999 1px;
+  text-decoration: none;
+  cursor : pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.btn:hover{
+  color : #666;
+  /*
+  HAIL SATAN
+  LOL
+  Just kidding
+  */
+}
+
+.textinput{
+  border-radius : 5px;
+  border : 1px solid #CCC;
+  color : #666;
+  padding : 10px;
+}
+
+.textinput:focus{
+  border : 1px solid #a3dc52;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #444444;
+  background: #FFFFFF;
+  border-radius: 5px;
+  border: 1px solid #CCCCCC;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 4px #444444;
+  border: 2px solid #CCCCCC;
+  height: 18px;
+  width: 18px;
+  border-radius: 9px;
+  background: #FFFFFF;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5.5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #FFFFFF;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #444444;
+  background: #FFFFFF;
+  border-radius: 5px;
+  border: 1px solid #CCCCCC;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 4px #444444;
+  border: 2px solid #CCCCCC;
+  height: 18px;
+  width: 18px;
+  border-radius: 9px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px #444444;
+}
+input[type=range]::-ms-fill-upper {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px #444444;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 4px #444444;
+  border: 2px solid #CCCCCC;
+  height: 18px;
+  width: 18px;
+  border-radius: 9px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #FFFFFF;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #FFFFFF;
+}
+
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+.select select {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 30px 8px 10px;
+  outline: 0;
+  border : 1px solid #CCC;
+  border-radius: 5px;
+  background: #FFF;
+  color: #777;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover{
+  color: #444;
+  background: #EEE;
+}
+.select select:focus {
+  border : 1px solid #a3dc52;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}
+
+option{
+  background-color: #FFF;
+  padding : 2px 5px 2px 30px;
+  background-repeat: no-repeat;
+}
+
+.collectoption{
+  background-color: #FFF;
+  padding : 2px 5px 2px 30px;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  line-height : 25px;
+}
+
+.groupedlabel label{
+  display: inline-block;
+  width : 60px;
+  text-align : right;
+  font-size : 14px;
+  line-height : 30px;
+  height : 30px;
+}
+
+.groupedlabel{
+  width : 220px;
+  float : left;
+}
+
+.filloptions{
+  float : left;
+  height : 200px;
+  width : 200px;
+  margin : 0 20px 0 0;
+}
+
+.nbinput{
+  border : 0;
+  border-bottom : 1px solid #444;
+  margin : 0 0 0 10px;
+}
+
+h3{
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 16px;
+  margin : 0 0 5px 0;
+  padding : 0;
+  text-align: center;
+  border-bottom: 1px solid #CCC;
+  text-shadow: 1px 1px #FFF, -1px 1px #FFF;
+}
+
+.hideshowfigure{
+  color : #666;
+  text-decoration: underline;
+  font-size : 14px;
+  cursor: pointer;
+  padding-left: 5px;
+}
+
+.hideshowfigure:hover{
+  color : #006;
 }

@@ -1,6 +1,21 @@
 var screenWidth = 0;
 var screenHeight = 0;
 
+var iCanvas = 0;
+var imgStorage = new Array();
+var previewMode = false;
+var renderScaling = 1;
+
+var shapeList = new Array();
+  shapeList.push("text");
+  shapeList.push("rectangle");
+  shapeList.push("circle");
+  shapeList.push("triangle");
+
+var iPreset = 0;
+
+var isChrome = !!window.chrome && !!window.chrome.webstore;
+
 /*
   Values for the newly created shapes.
   you can tweak around with those to go faster in setting up your layout.
@@ -52,12 +67,6 @@ function AbsoluteCropping(w, h, maxW, maxH){
   return wh;
 }
 
-var iCanvas = 0;
-var imgStorage = new Array();
-var previewMode = false;
-
-var renderScaling = 1;
-
 function NewThumbnail(){
   iCanvas++;
   var cDOM = document.createElement("canvas");
@@ -99,8 +108,6 @@ function NewCanvas(e){
 }
 
 function RenderPresetCollection(){
-  var imgs = new Array();
-
   for(i=0; i<storedCollection.length; i++){
       NewThumbnail();
       var ctx = document.getElementById(iCanvas +"c").getContext('2d');
@@ -165,7 +172,84 @@ function SetScreenSize(){
 }
 
 function AddSettings(){
+  iPreset++;
+  displayPreset = "";
+  var closeIPreset = iPreset; // CLOSURE
 
+  if(iPreset < 10)
+    displayPreset = "#0" + closeIPreset;
+  else
+    displayPreset = "#" + closeIPreset;
+
+  // Head + parameters
+  presetWrapper = document.createElement('div');
+    presetWrapper.setAttribute('id', closeIPreset+'wp');
+
+  // parameters
+  presetParam = document.createElement('div');
+    presetParam.setAttribute('id', closeIPreset+'pp');
+    presetParam.style.display = "block"; // Bugfix (doubleclick to initiate the visibility toggle)
+
+  // Head
+  presetHeader = document.createElement('div');
+  shapeSelect = CreateShapeSelect();
+
+  figId = document.createElement('span');
+    figId.setAttribute('class', 'figureid');
+    figId.innerHTML = displayPreset;
+
+  toggleParam = document.createElement('span');
+    toggleParam.setAttribute('class', 'hideshowfigure');
+    toggleParam.setAttribute('id', closeIPreset+'tg');
+    toggleParam.innerHTML = "[Hide parameters]";
+
+  presetHeader.appendChild(shapeSelect);
+  presetHeader.appendChild(figId);
+  presetHeader.appendChild(toggleParam);
+
+  presetWrapper.appendChild(presetHeader);
+  presetWrapper.appendChild(presetParam);
+
+  document.getElementById('presetscontainer').appendChild(presetWrapper);
+  ParamShape(shapeList[0], closeIPreset+'pp');
+
+  document.getElementById(closeIPreset+'ss').onchange = function(){
+    ParamShape(this.value, closeIPreset+'pp');
+  };
+
+  document.getElementById(closeIPreset+'tg').onclick = function(){
+    TogglePreset(closeIPreset);
+  };
+
+  clearer = document.createElement('div');
+    clearer.setAttribute('class', 'paramclear');
+
+  document.getElementById('presetscontainer').appendChild(clearer);
+}
+
+function CreateShapeSelect(){
+  shapesEl = document.createElement('select');
+    shapesEl.setAttribute('id', iPreset+'ss');
+
+  selectContainer = document.createElement('div');
+    selectContainer.setAttribute('class', 'select');
+
+  selectArrow = document.createElement('div');
+    selectArrow.setAttribute('class', 'select__arrow');
+
+  for(i=0; i < shapeList.length; i++){
+    opt = document.createElement('option');
+      opt.setAttribute('value', shapeList[i]);
+      opt.style.backgroundImage = 'url(theme/' + shapeList[i] +'.png)';
+      opt.innerHTML = shapeList[i];
+
+    shapesEl.appendChild(opt);
+  }
+
+  selectContainer.appendChild(shapesEl);
+  selectContainer.appendChild(selectArrow);
+
+  return selectContainer;
 }
 
 function ParamShape(shape, paramId){
@@ -271,6 +355,20 @@ function CreateSelectFromCollection(paramId){
   return selContainer;
 }
 
+function TogglePreset(id){
+  elState = document.getElementById(id+'pp');
+  if(elState.style.display == "block"){
+    elState.style.display = "none";
+    document.getElementById(id+'tg').innerHTML = "[Show parameters]";
+    document.getElementById(id+'ss').disabled = true;
+  }
+  else{
+    elState.style.display = "block";
+    document.getElementById(id+'tg').innerHTML = "[Hide parameters]";
+    document.getElementById(id+'ss').disabled = false;
+  }
+}
+
 function SetSelectHead(val){
   bg = document.getElementById(val).toDataURL();
   document.getElementById("_test").style.backgroundImage = 'url(' + bg + ')';
@@ -282,6 +380,9 @@ window.onload = function(){
   document.getElementById('_xpic').addEventListener('change', NewCanvas, false);
   SetScreenSize();
   RenderPresetCollection();
+
+  if(isChrome)
+    alert("This tool is optimized for Firefox, expect odd behavior on Chrome. You've been warned!");
 }
 
 window.onresize = function(){

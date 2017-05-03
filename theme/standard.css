@@ -251,6 +251,7 @@ input[type=range]:focus::-ms-fill-upper {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  text-transform: capitalize;
 }
 .select select::-ms-expand {
   display: none;
@@ -289,6 +290,7 @@ option{
   background-color: #FFF;
   padding : 2px 5px 2px 30px;
   background-repeat: no-repeat;
+  text-transform: capitalize;
 }
 
 .collectoption{
@@ -348,4 +350,10 @@ h3{
 
 .hideshowfigure:hover{
   color : #006;
+}
+
+.paramclear{
+  clear : both;
+  margin : 0 0 10px 0;
+  border-bottom: 1px solid #CCC;
 }

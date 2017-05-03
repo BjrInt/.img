@@ -85,6 +85,7 @@ function NewCanvas(e){
   var reader = new FileReader();
   reader.onload = function(event){
       var img = new Image();
+
       img.onload = function(){
         wh = OptimisedCropping(img.width, img.height, 100, 100);
         ctx.drawImage(img, wh[2], wh[3], img.width, img.height, 0, 0, wh[0], wh[1]);

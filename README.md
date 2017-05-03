@@ -19,11 +19,15 @@ Your collection stands for all the files that you've added to the browser via th
 It is possible to add custom pictures to your collection, those pictures will be loaded each time you load the page, thus saving tremendous amount of time working with logos or other type of recurring material.
 Simply add pictures in the *presets/collection* directory then push the array in the *presets/collection.js*, it's as simple as that! You can also add custom fonts using the same principle.
 
+## Changelog
+* v0.0.1
+⋅⋅* Got rid of normalize.css
+
 ## Todo list
 * Pretty much everything! :^)
+* Include chrome bugfix (still not working in chrome)
 
 ## Credits
-* [Normalize CSS (n.css)](http://github.com/necolas/normalize.css), because I don't feel like rewriting craprules that should be standard already! :^)
 * Dosis, Oswald, Kurale (fonts) under the [Open Font License (OFL)](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)
 
 Because I mainly work on this for fun in my free time, bugfixes and features development are subject to delays.

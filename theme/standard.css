@@ -20,6 +20,11 @@ body{
   font-family: 'Dosis', sans-serif;
 }
 
+input{
+  font-size: 16px;
+  font-weight: normal;
+}
+
 .blurredbackground {
   -webkit-filter: blur(10px);
   filter: blur(10px);
@@ -319,6 +324,7 @@ option{
   border : 0;
   border-bottom : 1px solid #444;
   margin : 0 0 0 10px;
+  font-size: 14px;
 }
 
 h3{

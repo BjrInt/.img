@@ -21,7 +21,7 @@ Simply add pictures in the *presets/collection* directory then push the array in
 
 ## Changelog
 * v0.0.1
-⋅⋅* Got rid of normalize.css
+  * Got rid of normalize.css
 
 ## Todo list
 * Pretty much everything! :^)

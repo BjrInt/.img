@@ -13,16 +13,24 @@ var shapeList = new Array();
   shapeList.push("triangle");
 
 var iPreset = 0;
-
 var isChrome = !!window.chrome && !!window.chrome.webstore;
 
 /*
   Values for the newly created shapes.
   you can tweak around with those to go faster in setting up your layout.
 */
-
 var imgHeight = 500;
 var imgWidth = 500;
+
+var _settings = new Array();
+
+function ImportPresets(){
+
+}
+
+function ExportPresets(){
+
+}
 
 var defaultValues = new Array();
   defaultValues["s"] = 14;
@@ -412,3 +420,40 @@ document.onkeydown = function(evt) {
       previewMode = false;
     }
 };
+
+
+/*
+  ----------------------
+    CONSOLE Functions :
+  ----------------------
+*/
+function FlushSettings(){
+
+}
+
+function FlushPresets(){
+
+}
+
+function FlushCollection(){
+
+}
+
+function f(arg){
+  switch(arg){
+    case "s":
+    FlushSettings();
+    break;
+
+    case "p":
+    FlushPresets();
+    break;
+
+    case "c":
+    FlushCollection();
+    break;
+
+    default:
+    console.log('Flush function.\n f(s) to flush settings\n f(p) to erase saved presets\n f(c) to empty your collection');
+  }
+}

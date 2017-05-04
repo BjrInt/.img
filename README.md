@@ -1,4 +1,4 @@
-# dotimg (Work In Progress!)
+# .img (Work In Progress!)
 .img (pronounced “dot image”) is a powerful and versatile, yet easy to use image composer.
 
 ## How does it work?

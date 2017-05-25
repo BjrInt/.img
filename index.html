@@ -10,14 +10,13 @@
 
   	<title></title>
   	<link rel="icon" type="image/png" href="theme/favicon.ico" />
-
-  	<!-- Normalize CSS -->
-
   	<link rel="stylesheet" href="theme/standard.css">
 
     <script src="presets/collection.js"></script>
     <script src="presets/presets.js"></script>
     <script src="dotimg.js"></script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
 
   <body>
@@ -31,6 +30,14 @@
         .img
       </div>
       <h1>.img | The simple image composer!</h1>
+
+      <p>
+        <a class="github-button" href="https://github.com/BjrInt" data-show-count="true" aria-label="Follow @BjrInt on GitHub">Follow @BjrInt</a>
+        <a class="github-button" href="https://github.com/BjrInt/.img" data-show-count="true" data-icon="octicon-star" aria-label="Star BjrInt/ComeOnMySelector on GitHub">Star</a>
+        <a class="github-button" href="https://github.com/BjrInt/.imgr/fork" data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork BjrInt/ComeOnMySelector on GitHub">Fork</a>
+        <a class="github-button" href="https://github.com/BjrInt/.img/archive/master.zip" data-icon="octicon-cloud-download" aria-label="Download BjrInt/ComeOnMySelector on GitHub">Download</a>
+      </p>
+
       <p><strong>.img</strong> (pronounced <strong>“dot image”</strong>) is a powerful and versatile, yet easy to use image composer. Just add some pictures from your computer to your collection, and place them on your final composition. Crop, merge, add some text and effects and you're done! You can save your settings to create a series of preset pictures, useful for anyone looking to preserve a graphical identity.</p>
 
       <h2>My collection</h2>
@@ -45,22 +52,16 @@
 
       <h2>Display Settings</h2>
       <span class="btn" id="_settingsAdd" onclick="AddSettings()">Add a text or a shape</span>
-      <span class="btn">Save this as a preset</span>
+      <span class="btn" onclick="ExportPresets()">Save this as a preset</span>
 
-      <br><br><br>
-
-      <!--<div class="select">
-          <select onchange="ParamShape(this.value, 'tesselector')">
-            <option value="text" style="background-image:url(theme/text.png)">Text</option>
-            <option value="rectangle" style="background-image:url(theme/rectangle.png)">Rectangle</option>
-            <option value="circle" style="background-image:url(theme/circle.png)">Circle</option>
-            <option value="triangle" style="background-image:url(theme/triangle.png)">Triangle</option>
-          </select>
-          <div class="select__arrow"></div>
+      <div class="select">
+        <select onchange="ImportPresets(this.value)">
+          <option disabled="disabled" selected="selected">Load a preset</disabled>
+        </select>
+        <div class="select__arrow"></div>
       </div>
 
-      <span class="figureid">#01</span>
-      <span class="hideshowfigure">[Hide parameters]</span>-->
+      <br><br><br>
 
       <div id="presetscontainer"></div>
 

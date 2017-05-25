@@ -15,20 +15,37 @@ var shapeList = new Array();
 var iPreset = 0;
 var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-/*
-  Values for the newly created shapes.
-  you can tweak around with those to go faster in setting up your layout.
-*/
 var imgHeight = 500;
 var imgWidth = 500;
 
 var _settings = new Array();
 
-function ImportPresets(){
+function ImportPresets(presetName){
+  if(localStorage.getItem(presetName)){
+    var cf = confirm("Load \""+presetName+"\"? All the existing settings will be erased!");
 
+    if(cf == true){
+      _settings = JSON.parse(localStorage.getItem(presetName));
+      RenderPresets();
+    }
+  }
 }
 
 function ExportPresets(){
+  var presetName = prompt("Choose a name for your preset.");
+
+  if(localStorage.getItem(presetName)){
+    var cf = confirm("Overwrite \""+presetName+"\" ?");
+
+    if(cf == true)
+      localStorage.setItem(JSON.stringify(_settings));
+  }
+  else{
+    localStorage.setItem(JSON.stringify(_settings));
+  }
+}
+
+function RenderPresets(){
 
 }
 
@@ -183,6 +200,7 @@ function AddSettings(){
   iPreset++;
   displayPreset = "";
   var closeIPreset = iPreset; // CLOSURE
+  _settings[closeIPreset] = {};
 
   if(iPreset < 10)
     displayPreset = "#0" + closeIPreset;
@@ -223,6 +241,14 @@ function AddSettings(){
 
   document.getElementById(closeIPreset+'ss').onchange = function(){
     ParamShape(this.value, closeIPreset+'pp');
+    _settings[closeIPreset] = {
+      shape: this.value,
+      x: (_settings[closeIPreset].x != defaultValues['x']) ? _settings[closeIPreset].x : defaultValues['x'],
+      y: (_settings[closeIPreset].y != defaultValues['y']) ? _settings[closeIPreset].y : defaultValues['y'],
+      s: (_settings[closeIPreset].y != defaultValues['s']) ? _settings[closeIPreset].s : defaultValues['s'],
+      h: (_settings[closeIPreset].y != defaultValues['h']) ? _settings[closeIPreset].h : defaultValues['h'],
+      w: (_settings[closeIPreset].y != defaultValues['w']) ? _settings[closeIPreset].w : defaultValues['w']
+    };
   };
 
   document.getElementById(closeIPreset+'tg').onclick = function(){
@@ -236,8 +262,11 @@ function AddSettings(){
 }
 
 function CreateShapeSelect(){
+  uniqueClass = Date.now() +"shapes";
+
   shapesEl = document.createElement('select');
     shapesEl.setAttribute('id', iPreset+'ss');
+    shapesEl.setAttribute('class', uniqueClass);
 
   selectContainer = document.createElement('div');
     selectContainer.setAttribute('class', 'select');
@@ -390,7 +419,7 @@ window.onload = function(){
   RenderPresetCollection();
 
   if(isChrome)
-    alert("This tool is optimized for Firefox, expect odd behavior on Chrome. You've been warned!");
+    alert("This tool is optimized for Firefox, expect odd behavior on Chrome. You've been warned!\n Check out the github page for more info...");
 }
 
 window.onresize = function(){
@@ -432,7 +461,7 @@ function FlushSettings(){
 }
 
 function FlushPresets(){
-
+  localStorage.clear();
 }
 
 function FlushCollection(){

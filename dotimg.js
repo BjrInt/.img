@@ -12,7 +12,7 @@ var shapeList = new Array();
   shapeList.push("circle");
   shapeList.push("triangle");
 
-var iPreset = 0;
+var iPreset = -1;
 var isChrome = !!window.chrome && !!window.chrome.webstore;
 
 var imgHeight = 500;
@@ -38,10 +38,25 @@ function ExportPresets(){
     var cf = confirm("Overwrite \""+presetName+"\" ?");
 
     if(cf == true)
-      localStorage.setItem(JSON.stringify(_settings));
+      localStorage.setItem(presetName, JSON.stringify(_settings));
   }
   else{
-    localStorage.setItem(JSON.stringify(_settings));
+    localStorage.setItem(presetName, JSON.stringify(_settings));
+  }
+}
+
+function LoadPresetList(){
+  console.log(localStorage.length);
+
+  sel = document.getElementById('localPresets');
+  for(i = 0; i < localStorage.length; i++){
+    k = localStorage.key(i);
+
+    opt = document.createElement('option');
+      opt.setAttribute('value', k);
+      opt.innerHTML = k;
+
+    sel.appendChild(opt);
   }
 }
 
@@ -200,7 +215,17 @@ function AddSettings(){
   iPreset++;
   displayPreset = "";
   var closeIPreset = iPreset; // CLOSURE
-  _settings[closeIPreset] = {};
+
+  _settings[closeIPreset] = {
+    shape: shapeList[0],
+    x: defaultValues['x'],
+    y: defaultValues['x'],
+    s: defaultValues['x'],
+    h: defaultValues['x'],
+    w: defaultValues['x'],
+    dx: 0,
+    r: 0
+  }
 
   if(iPreset < 10)
     displayPreset = "#0" + closeIPreset;
@@ -238,18 +263,6 @@ function AddSettings(){
 
   document.getElementById('presetscontainer').appendChild(presetWrapper);
   ParamShape(shapeList[0], closeIPreset+'pp');
-
-  document.getElementById(closeIPreset+'ss').onchange = function(){
-    ParamShape(this.value, closeIPreset+'pp');
-    _settings[closeIPreset] = {
-      shape: this.value,
-      x: (_settings[closeIPreset].x != defaultValues['x']) ? _settings[closeIPreset].x : defaultValues['x'],
-      y: (_settings[closeIPreset].y != defaultValues['y']) ? _settings[closeIPreset].y : defaultValues['y'],
-      s: (_settings[closeIPreset].y != defaultValues['s']) ? _settings[closeIPreset].s : defaultValues['s'],
-      h: (_settings[closeIPreset].y != defaultValues['h']) ? _settings[closeIPreset].h : defaultValues['h'],
-      w: (_settings[closeIPreset].y != defaultValues['w']) ? _settings[closeIPreset].w : defaultValues['w']
-    };
-  };
 
   document.getElementById(closeIPreset+'tg').onclick = function(){
     TogglePreset(closeIPreset);
@@ -336,13 +349,18 @@ function ParamShape(shape, paramId){
   h3B.innerHTML = "Shape parameters";
   elDiv.appendChild(h3B);
 
+  paramI = parseInt(paramId);
+
   for(var k in labels){
     elInput = document.createElement("input");
     elInput.setAttribute("id", paramId+k);
     elInput.setAttribute("class", "nbinput");
     elInput.setAttribute("type", "number");
 
-    if(defaultValues[k])
+    if(typeof _settings[paramI] !== 'undefined')
+      elInput.setAttribute('value', _settings[paramI][k]);
+
+    else if(typeof defaultValues[k] !== 'undefined')
       elInput.setAttribute('value', defaultValues[k]);
     else
       elInput.setAttribute('value', '0');
@@ -412,19 +430,21 @@ function SetSelectHead(val){
 }
 
 
-window.onload = function(){
+window.addEventListener('load', function(){
   SetWindowTitle("");
   document.getElementById('_xpic').addEventListener('change', NewCanvas, false);
   SetScreenSize();
   RenderPresetCollection();
+  LoadPresetList();
 
   if(isChrome)
     alert("This tool is optimized for Firefox, expect odd behavior on Chrome. You've been warned!\n Check out the github page for more info...");
-}
+});
 
-window.onresize = function(){
+window.addEventListener('resize', function(){
   SetScreenSize();
-}
+  console.log('resized')
+});
 
 document.addEventListener('click', function(event) {
   if (event.target.tagName.toLowerCase() === 'canvas') {
@@ -439,7 +459,7 @@ document.addEventListener('click', function(event) {
   }
 });
 
-document.onkeydown = function(evt) {
+document.addEventListener('keydown', function(evt) {
     evt = evt || window.event;
     var charCode = evt.keyCode || evt.which;
 
@@ -448,17 +468,31 @@ document.onkeydown = function(evt) {
       document.getElementById("displayCanvas").style.display = "none";
       previewMode = false;
     }
-};
+});
 
+document.addEventListener('change', function(event) {
+  if (event.target.tagName.toLowerCase() === 'input' && event.target.type.toLowerCase() === 'number') {
+    var shapeId = parseInt(event.target.id);
+    var shapeParam = event.target.id;
+      shapeParam = shapeParam.replace(/\d+pp/g, '');
+    var paramValue = event.target.value;
+
+    _settings[shapeId][shapeParam] = parseInt(paramValue);
+    console.log(JSON.stringify(_settings));
+  }
+  else if (event.target.tagName.toLowerCase() === 'select' && event.target.id.match(/\d+ss/g)) {
+    var shapeId = parseInt(event.target.id);
+
+    ParamShape(event.target.value, shapeId+'pp');
+    _settings[shapeId].shape = event.target.value;
+  }
+});
 
 /*
   ----------------------
     CONSOLE Functions :
   ----------------------
 */
-function FlushSettings(){
-
-}
 
 function FlushPresets(){
   localStorage.clear();
@@ -483,6 +517,6 @@ function f(arg){
     break;
 
     default:
-    console.log('Flush function.\n f(s) to flush settings\n f(p) to erase saved presets\n f(c) to empty your collection');
+    console.log('Flush function.\n f(p) to erase saved presets\n f(c) to empty your collection');
   }
 }

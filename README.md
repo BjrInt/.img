@@ -29,7 +29,7 @@ Since chrome has an odd behavior with the way it handles image buffer, there are
 
 ## Todo list
 * Pretty much everything! :^)
-* Include chrome bugfix (still not working in chrome)
+* Include chrome bugfix (still not working on chrome)
 
 ## Credits
 * Dosis, Oswald, Kurale (fonts) under the [Open Font License (OFL)](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)

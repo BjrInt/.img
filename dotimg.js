@@ -286,9 +286,9 @@ function AddSettings(){
   document.getElementById('presetscontainer').appendChild(presetWrapper);
   ParamShape(_settings[closeIPreset]["shape"], closeIPreset+'pp');
 
-  /*document.getElementById(closeIPreset+'tg').onclick = function(){
+  document.getElementById(closeIPreset+'tg').onclick = function(){
     TogglePreset(closeIPreset);
-  };*/
+  };
 
   clearer = document.createElement('div');
     clearer.setAttribute('class', 'paramclear');

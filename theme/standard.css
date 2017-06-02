@@ -357,3 +357,9 @@ h3{
   margin : 0 0 10px 0;
   border-bottom: 1px solid #CCC;
 }
+
+#_chromewarn{
+  color : #EE2222;
+  font-weight: bold;
+  display : none;
+}

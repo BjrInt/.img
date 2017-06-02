@@ -1,70 +1,26 @@
-var screenWidth = 0;
-var screenHeight = 0;
+let screenWidth = 0;
+let screenHeight = 0;
 
-var iCanvas = 0;
-var imgStorage = new Array();
-var previewMode = false;
-var renderScaling = 1;
+let iCanvas = 0;
+let imgStorage = new Array();
+let previewMode = false;
+let renderScaling = 1;
 
-var shapeList = new Array();
+let shapeList = new Array();
   shapeList.push("text");
   shapeList.push("rectangle");
   shapeList.push("circle");
   shapeList.push("triangle");
 
-var iPreset = -1;
-var isChrome = !!window.chrome && !!window.chrome.webstore;
+let iPreset = -1;
+let isChrome = !!window.chrome && !!window.chrome.webstore;
 
-var imgHeight = 500;
-var imgWidth = 500;
+let imgHeight = 500;
+let imgWidth = 500;
 
-var _settings = new Array();
+let _settings = new Array();
 
-function ImportPresets(presetName){
-  if(localStorage.getItem(presetName)){
-    var cf = confirm("Load \""+presetName+"\"? All the existing settings will be erased!");
-
-    if(cf == true){
-      _settings = JSON.parse(localStorage.getItem(presetName));
-      RenderPresets();
-    }
-  }
-}
-
-function ExportPresets(){
-  var presetName = prompt("Choose a name for your preset.");
-
-  if(localStorage.getItem(presetName)){
-    var cf = confirm("Overwrite \""+presetName+"\" ?");
-
-    if(cf == true)
-      localStorage.setItem(presetName, JSON.stringify(_settings));
-  }
-  else{
-    localStorage.setItem(presetName, JSON.stringify(_settings));
-  }
-}
-
-function LoadPresetList(){
-  console.log(localStorage.length);
-
-  sel = document.getElementById('localPresets');
-  for(i = 0; i < localStorage.length; i++){
-    k = localStorage.key(i);
-
-    opt = document.createElement('option');
-      opt.setAttribute('value', k);
-      opt.innerHTML = k;
-
-    sel.appendChild(opt);
-  }
-}
-
-function RenderPresets(){
-
-}
-
-var defaultValues = new Array();
+let defaultValues = new Array();
   defaultValues["s"] = 14;
   defaultValues["x"] = 20;
   defaultValues["y"] = 20;
@@ -72,9 +28,70 @@ var defaultValues = new Array();
   defaultValues["w"] = 100;
 
 
+function ImportPresets(presetName){
+  if(localStorage.getItem(presetName)){
+    let cf = confirm("Load \""+presetName+"\"? All the existing settings will be erased!");
+
+    if(cf == true){
+      _settings = JSON.parse(localStorage.getItem(presetName));
+      console.log(_settings.length);
+      RenderPresets();
+    }
+  }
+
+  SetWindowTitle(presetName);
+}
+
+function ExportPresets(){
+  let presetName = prompt("Choose a name for your preset.");
+
+  if(localStorage.getItem(presetName)){
+    let cf = confirm("Overwrite \""+presetName+"\" ?");
+
+    if(cf == true)
+      localStorage.setItem(presetName, JSON.stringify(_settings));
+  }
+  else{
+    localStorage.setItem(presetName, JSON.stringify(_settings));
+    LoadPresetList(presetName);
+  }
+
+  SetWindowTitle(presetName);
+}
+
+function LoadPresetList(){
+  sel = document.getElementById('localPresets');
+
+  if(arguments.length > 0){
+    opt = document.createElement('option');
+    opt.setAttribute('value', arguments[0]);
+    opt.innerHTML = arguments[0];
+
+    sel.appendChild(opt);
+  }
+  else{
+    for(i = 0; i < localStorage.length; i++){
+      k = localStorage.key(i);
+
+      opt = document.createElement('option');
+        opt.setAttribute('value', k);
+        opt.innerHTML = k;
+
+      sel.appendChild(opt);
+    }
+  }
+}
+
+function RenderPresets(){
+  /*iPreset = -1;
+  document.getElementById("presetscontainer").innerHTML = '';*/
+
+  alert('This feature is still in development.\nYour shapes were sucessfully saved though\n\n'+ JSON.stringify(_settings));
+}
+
 function OptimisedCropping(w, h, maxW, maxH){
   biggest = Math.max(w, h);
-  var wh = new Array();
+  let wh = new Array();
 
   if(w >= h){
     wh[0] = Math.round(w * (maxW / h));
@@ -109,19 +126,19 @@ function AbsoluteCropping(w, h, maxW, maxH){
 
 function NewThumbnail(){
   iCanvas++;
-  var cDOM = document.createElement("canvas");
+  let cDOM = document.createElement("canvas");
   cDOM.setAttribute("id", iCanvas +"c");
   cDOM.setAttribute("class", "thumbnailCanvas");
   cDOM.setAttribute("width", "100");
   cDOM.setAttribute("height", "100");
   document.getElementById("thumbnails").appendChild(cDOM);
 
-  var transparency = new Image();
+  let transparency = new Image();
   transparency.src = 'theme/transparent.png';
-  var ctx = document.getElementById(iCanvas +"c").getContext('2d');
+  let ctx = document.getElementById(iCanvas +"c").getContext('2d');
 
   transparency.onload = function(){
-      var ptrn = ctx.createPattern(transparency, 'repeat');
+      let ptrn = ctx.createPattern(transparency, 'repeat');
       ctx.fillStyle = ptrn;
       ctx.fillRect(0, 0, 100, 100);
   }
@@ -130,10 +147,10 @@ function NewThumbnail(){
 function NewCanvas(e){
   NewThumbnail();
 
-  var ctx = document.getElementById(iCanvas +"c").getContext('2d');
-  var reader = new FileReader();
+  let ctx = document.getElementById(iCanvas +"c").getContext('2d');
+  let reader = new FileReader();
   reader.onload = function(event){
-      var img = new Image();
+      let img = new Image();
 
       img.onload = function(){
         wh = OptimisedCropping(img.width, img.height, 100, 100);
@@ -150,7 +167,7 @@ function NewCanvas(e){
 function RenderPresetCollection(){
   for(i=0; i<storedCollection.length; i++){
       NewThumbnail();
-      var ctx = document.getElementById(iCanvas +"c").getContext('2d');
+      let ctx = document.getElementById(iCanvas +"c").getContext('2d');
 
       img = new Image();
       img.src = "presets/" + storedCollection[i];
@@ -171,7 +188,7 @@ function DisplayThumbnail(id){
   img = imgStorage[id];
 
   displayCanvas.style.display = "block";
-  var ctx = displayCanvas.getContext('2d');
+  let ctx = displayCanvas.getContext('2d');
 
   if(screenHeight < img.height || screenWidth < img.width){
     wh = AbsoluteCropping(img.width, img.height, screenWidth, screenHeight);
@@ -214,17 +231,22 @@ function SetScreenSize(){
 function AddSettings(){
   iPreset++;
   displayPreset = "";
-  var closeIPreset = iPreset; // CLOSURE
+  let closeIPreset = iPreset; // CLOSURE
 
-  _settings[closeIPreset] = {
-    shape: shapeList[0],
-    x: defaultValues['x'],
-    y: defaultValues['x'],
-    s: defaultValues['x'],
-    h: defaultValues['x'],
-    w: defaultValues['x'],
-    dx: 0,
-    r: 0
+  if(typeof _settings[closeIPreset] == 'undefined'){
+    _settings[closeIPreset] = {
+      shape: shapeList[0],
+      x: defaultValues['x'],
+      y: defaultValues['y'],
+      s: defaultValues['s'],
+      h: defaultValues['h'],
+      w: defaultValues['w'],
+      dx: 0,
+      r: 0,
+      fillColor: '#000000',
+      fillCollection : null,
+      stratum: closeIPreset
+    }
   }
 
   if(iPreset < 10)
@@ -262,11 +284,11 @@ function AddSettings(){
   presetWrapper.appendChild(presetParam);
 
   document.getElementById('presetscontainer').appendChild(presetWrapper);
-  ParamShape(shapeList[0], closeIPreset+'pp');
+  ParamShape(_settings[closeIPreset]["shape"], closeIPreset+'pp');
 
-  document.getElementById(closeIPreset+'tg').onclick = function(){
+  /*document.getElementById(closeIPreset+'tg').onclick = function(){
     TogglePreset(closeIPreset);
-  };
+  };*/
 
   clearer = document.createElement('div');
     clearer.setAttribute('class', 'paramclear');
@@ -275,11 +297,8 @@ function AddSettings(){
 }
 
 function CreateShapeSelect(){
-  uniqueClass = Date.now() +"shapes";
-
   shapesEl = document.createElement('select');
     shapesEl.setAttribute('id', iPreset+'ss');
-    shapesEl.setAttribute('class', uniqueClass);
 
   selectContainer = document.createElement('div');
     selectContainer.setAttribute('class', 'select');
@@ -292,6 +311,9 @@ function CreateShapeSelect(){
       opt.setAttribute('value', shapeList[i]);
       opt.style.backgroundImage = 'url(theme/' + shapeList[i] +'.png)';
       opt.innerHTML = shapeList[i];
+
+    if(_settings[iPreset] !== 'undefined' && shapeList[i] == _settings[iPreset]['shape'])
+      opt.setAttribute("selected", "selected");
 
     shapesEl.appendChild(opt);
   }
@@ -312,12 +334,13 @@ function ParamShape(shape, paramId){
   fillSelect = CreateSelectFromCollection(paramId);
   fillDiv = document.createElement('div');
   fillDiv.setAttribute('class', 'filloptions');
+
   fillDiv.appendChild(h3A);
   fillDiv.appendChild(fillSelect);
 
   sel.appendChild(fillDiv);
 
-  var labels = new Array();
+  let labels = new Array();
   labels["x"] = "Left";
   labels["y"] = "Top";
 
@@ -351,7 +374,7 @@ function ParamShape(shape, paramId){
 
   paramI = parseInt(paramId);
 
-  for(var k in labels){
+  for(let k in labels){
     elInput = document.createElement("input");
     elInput.setAttribute("id", paramId+k);
     elInput.setAttribute("class", "nbinput");
@@ -395,13 +418,16 @@ function CreateSelectFromCollection(paramId){
   len = imgStorage.length;
 
   for(i=1; i < len; i++){
-    bg = document.getElementById(i+'c').toDataURL();
-
     opt = document.createElement("option");
     opt.setAttribute('value', i+'c');
     opt.setAttribute('class', 'collectoption');
     opt.innerHTML = i;
-    opt.style.backgroundImage = 'url(' + bg + ')';
+
+    if(!isChrome){
+      bg = document.getElementById(i+'c').toDataURL();
+      opt.style.backgroundImage = 'url(' + bg + ')';
+    }
+
     selEl.appendChild(opt);
   }
 
@@ -438,7 +464,7 @@ window.addEventListener('load', function(){
   LoadPresetList();
 
   if(isChrome)
-    alert("This tool is optimized for Firefox, expect odd behavior on Chrome. You've been warned!\n Check out the github page for more info...");
+    document.getElementById('_chromewarn').style.display = 'inline';
 });
 
 window.addEventListener('resize', function(){
@@ -461,7 +487,7 @@ document.addEventListener('click', function(event) {
 
 document.addEventListener('keydown', function(evt) {
     evt = evt || window.event;
-    var charCode = evt.keyCode || evt.which;
+    let charCode = evt.keyCode || evt.which;
 
     if(charCode == 27 && previewMode == true){
       document.getElementById("content").removeAttribute("class", "blurredbackground");
@@ -472,16 +498,16 @@ document.addEventListener('keydown', function(evt) {
 
 document.addEventListener('change', function(event) {
   if (event.target.tagName.toLowerCase() === 'input' && event.target.type.toLowerCase() === 'number') {
-    var shapeId = parseInt(event.target.id);
-    var shapeParam = event.target.id;
+    let shapeId = parseInt(event.target.id);
+    let shapeParam = event.target.id;
       shapeParam = shapeParam.replace(/\d+pp/g, '');
-    var paramValue = event.target.value;
+    let paramValue = event.target.value;
 
     _settings[shapeId][shapeParam] = parseInt(paramValue);
     console.log(JSON.stringify(_settings));
   }
   else if (event.target.tagName.toLowerCase() === 'select' && event.target.id.match(/\d+ss/g)) {
-    var shapeId = parseInt(event.target.id);
+    let shapeId = parseInt(event.target.id);
 
     ParamShape(event.target.value, shapeId+'pp');
     _settings[shapeId].shape = event.target.value;
@@ -514,6 +540,11 @@ function f(arg){
 
     case "c":
     FlushCollection();
+    break;
+
+    case "debug":
+    console.log('debugging');
+    console.log(_settings[0]);
     break;
 
     default:

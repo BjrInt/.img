@@ -25,10 +25,17 @@ Webkit browsers do have security issue with a particular function I am using to 
 
 
 This is what it looks like on Firefox (and should look like on any well coded browser)
-![Normal display](http://bonjourinternet.top/upload/_img_onff.png "Normal Display")
+
+
+![Normal display](http://bonjourinternet.top/upload/_imgonff.png "Normal Display")
+
+
+
 
 
 On webkit browsers
+
+
 ![Webkit display](http://bonjourinternet.top/upload/_img_wkitbug.png "Webkit Display")
 
 ## Changelog

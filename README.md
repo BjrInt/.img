@@ -21,11 +21,14 @@ It is possible to add custom pictures to your collection, those pictures will be
 Simply add pictures in the *presets/collection* directory then push the array in the *presets/collection.js*, it's as simple as that! You can also add custom fonts using the same principle.
 
 ## Chrome/Opera/Safari (webkit) issues
-Webkit browsers do have security issue with a particular function I am using to display the collection in the "fill section". This is due to the fact the you cannot use a ressource you've loaded into memory as a styled element (using the [toDataURL() method](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)). This means that you won't be able to see the which collection item you're going to fill your shape with, I took a screenshot explaining that issue.\n
-This is what it looks like on Firefox (and should look like on any well coded browser)\n
+Webkit browsers do have security issue with a particular function I am using to display the collection in the "fill section". This is due to the fact the you cannot use a ressource you've loaded into memory as a styled element (using the [toDataURL() method](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL)). This means that you won't be able to see the which collection item you're going to fill your shape with, I took a screenshot explaining that issue.
+
+
+This is what it looks like on Firefox (and should look like on any well coded browser)
 ![Normal display](http://bonjourinternet.top/upload/_img_onff.png "Normal Display")
 
-On webkit browsers\n
+
+On webkit browsers
 ![Webkit display](http://bonjourinternet.top/upload/_img_wkitbug.png "Webkit Display")
 
 ## Changelog

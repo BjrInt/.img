@@ -13,7 +13,7 @@ let shapeList = new Array();
   shapeList.push("triangle");
 
 let iPreset = -1;
-let isChrome = !!window.chrome && !!window.chrome.webstore;
+let isWebkit = 'WebkitAppearance' in document.documentElement.style;
 
 let imgHeight = 500;
 let imgWidth = 500;
@@ -423,7 +423,7 @@ function CreateSelectFromCollection(paramId){
     opt.setAttribute('class', 'collectoption');
     opt.innerHTML = i;
 
-    if(!isChrome){
+    if(!isWebkit){
       bg = document.getElementById(i+'c').toDataURL();
       opt.style.backgroundImage = 'url(' + bg + ')';
     }
@@ -463,7 +463,7 @@ window.addEventListener('load', function(){
   RenderPresetCollection();
   LoadPresetList();
 
-  if(isChrome)
+  if(isWebkit)
     document.getElementById('_chromewarn').style.display = 'inline';
 });
 

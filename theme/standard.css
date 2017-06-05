@@ -14,10 +14,11 @@
 
 body{
 	margin : auto;
-	padding : 0;
+	padding : 0 25px 25px 25px;
 	background : #FFF;
 	color : #444;
   font-family: 'Oswald', sans-serif;
+  display: grid;
 }
 
 input{
@@ -36,7 +37,16 @@ input{
 	text-align: justify;
 	font-size: 20px;
 	line-height: 30px;
-	margin : auto;
+	margin : 0;
+  display: inline-block;
+  grid-column: 1;
+}
+
+#renderblock{
+  margin : 0 0 0 20px;
+  padding : 5px;
+  border : 3px solid #FC0000;
+  grid-column: 2;
 }
 
 #labheader{

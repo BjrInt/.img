@@ -53,6 +53,9 @@
       <p>Click on the cross to add a picture to your collection. Once it is loaded into .img, you can click on the thumbnail to modify it.</p>
 
       <h2>Display Settings</h2>
+      Width: <input type="number" class="nbinput" id="_imgwidth">px<br>
+      Height: <input type="number" class="nbinput" id="_imgheight">px<br>
+      Scale: <input type="range" value="100" max="100" min="0" step="2" id="_imgscale" oninput="ResizePreview()" style="width:400px"><br>
       <span class="btn" id="_settingsAdd" onclick="AddSettings()">Add a text or a shape</span>
       <span class="btn" onclick="ExportPresets()">Save this as a preset</span>
 
@@ -64,10 +67,13 @@
       </div>
 
       <br><br><br>
+      <!-- ▲ ▼ -->
 
       <div id="presetscontainer"></div>
 
     </div>
+
+    <div id="renderblock"><canvas id="mainframe"></canvas></div>
   </body>
 </html>
 

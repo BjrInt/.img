@@ -49,6 +49,7 @@ On webkit browsers
 * Save the collection in browser memory (localStorage)
 * Remove image from the collection
 * Add filters (greyscale, blur, ...) to collection items
+* Add a colorpicker
 
 
 ## Credits

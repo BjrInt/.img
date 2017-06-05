@@ -10,7 +10,7 @@ let shapeList = new Array();
   shapeList.push("text");
   shapeList.push("rectangle");
   shapeList.push("circle");
-  shapeList.push("triangle");
+  //shapeList.push("triangle");
 
 let iPreset = -1;
 let isWebkit = 'WebkitAppearance' in document.documentElement.style;
@@ -335,8 +335,24 @@ function ParamShape(shape, paramId){
   fillDiv = document.createElement('div');
   fillDiv.setAttribute('class', 'filloptions');
 
+  collectionLabel = document.createElement('label');
+    collectionLabel.setAttribute('for', paramId+'col');
+    collectionLabel.innerHTML = 'Collection';
+
+  colorLabel = document.createElement('label');
+    colorLabel.setAttribute('for', paramId+'cp');
+    colorLabel.innerHTML = 'Background color:';
+
+  colorPicker = document.createElement('input');
+    colorPicker.setAttribute('type', 'color');
+    colorPicker.setAttribute('id', paramId+'cp');
+
+
   fillDiv.appendChild(h3A);
+  fillDiv.appendChild(collectionLabel);
   fillDiv.appendChild(fillSelect);
+  fillDiv.appendChild(colorLabel);
+  fillDiv.appendChild(colorPicker);
 
   sel.appendChild(fillDiv);
 
@@ -348,6 +364,7 @@ function ParamShape(shape, paramId){
     case "rectangle":
     labels["w"] = "Width";
     labels["h"] = "Height";
+    labels["r"] = "Rotation";
     break;
 
     case "circle":
@@ -363,6 +380,7 @@ function ParamShape(shape, paramId){
 
     case "text":
     labels["s"] = "Font Size";
+    labels["r"] = "Rotation";
     break;
   }
 
@@ -455,6 +473,18 @@ function SetSelectHead(val){
   document.getElementById("_test").style.backgroundImage = 'url(' + bg + ')';
 }
 
+function ResizePreview(){
+  previewScale = document.getElementById('_imgscale').value;
+  document.getElementById('renderblock').style.height = imgHeight * (previewScale / 100) + "px";
+  document.getElementById('renderblock').style.width = imgWidth * (previewScale / 100) + "px";
+
+  document.getElementById('mainframe').height = imgHeight * (previewScale / 100) + "px";
+  document.getElementById('mainframe').width = imgWidth * (previewScale / 100) + "px";
+}
+
+function ReDraw(){
+
+}
 
 window.addEventListener('load', function(){
   SetWindowTitle("");
@@ -465,6 +495,11 @@ window.addEventListener('load', function(){
 
   if(isWebkit)
     document.getElementById('_chromewarn').style.display = 'inline';
+
+  document.getElementById('_imgwidth').value = imgWidth;
+  document.getElementById('_imgheight').value = imgHeight;
+
+  ResizePreview();
 });
 
 window.addEventListener('resize', function(){
@@ -498,19 +533,37 @@ document.addEventListener('keydown', function(evt) {
 
 document.addEventListener('change', function(event) {
   if (event.target.tagName.toLowerCase() === 'input' && event.target.type.toLowerCase() === 'number') {
-    let shapeId = parseInt(event.target.id);
-    let shapeParam = event.target.id;
-      shapeParam = shapeParam.replace(/\d+pp/g, '');
-    let paramValue = event.target.value;
+    if(event.target.id == '_imgwidth'){
+      imgWidth = event.target.value;
+      ResizePreview();
+    }
+    else if(event.target.id == '_imgheight'){
+      imgHeight = event.target.value;
+      ResizePreview();
+    }
+    else if(event.target.id == '_imgscale'){
+      ResizePreview();
+    }
+    else{
+      let shapeId = parseInt(event.target.id);
+      let shapeParam = event.target.id;
+        shapeParam = shapeParam.replace(/\d+pp/g, '');
+      let paramValue = event.target.value;
 
-    _settings[shapeId][shapeParam] = parseInt(paramValue);
-    console.log(JSON.stringify(_settings));
+      _settings[shapeId][shapeParam] = parseInt(paramValue);
+      //console.log(JSON.stringify(_settings));
+    }
   }
-  else if (event.target.tagName.toLowerCase() === 'select' && event.target.id.match(/\d+ss/g)) {
-    let shapeId = parseInt(event.target.id);
+  else if (event.target.tagName.toLowerCase() === 'select') {
+    if(event.target.id.match(/\d+ss/g)){
+      let shapeId = parseInt(event.target.id);
 
-    ParamShape(event.target.value, shapeId+'pp');
-    _settings[shapeId].shape = event.target.value;
+      ParamShape(event.target.value, shapeId+'pp');
+      _settings[shapeId].shape = event.target.value;
+    }
+    else{
+
+    }
   }
 });
 

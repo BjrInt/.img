@@ -328,6 +328,8 @@ function ParamShape(shape, paramId){
   sel = document.getElementById(paramId);
   sel.innerHTML = "";
 
+  paramId = parseInt(paramId);
+
   h3A = document.createElement('h3');
   h3A.innerHTML = "Fill with...";
 
@@ -346,6 +348,7 @@ function ParamShape(shape, paramId){
   colorPicker = document.createElement('input');
     colorPicker.setAttribute('type', 'color');
     colorPicker.setAttribute('id', paramId+'cp');
+    colorPicker.setAttribute('value', _settings[paramId]['fillColor']);
 
 
   fillDiv.appendChild(h3A);
@@ -364,7 +367,6 @@ function ParamShape(shape, paramId){
     case "rectangle":
     labels["w"] = "Width";
     labels["h"] = "Height";
-    labels["r"] = "Rotation";
     break;
 
     case "circle":
@@ -375,12 +377,10 @@ function ParamShape(shape, paramId){
     labels["w"] = "Base";
     labels["h"] = "Height";
     labels["dx"] = "Peak";
-    labels["r"] = "Rotation";
     break;
 
     case "text":
-    labels["s"] = "Font Size";
-    labels["r"] = "Rotation";
+    labels["w"] = "Font Size";
     break;
   }
 
@@ -478,12 +478,43 @@ function ResizePreview(){
   document.getElementById('renderblock').style.height = imgHeight * (previewScale / 100) + "px";
   document.getElementById('renderblock').style.width = imgWidth * (previewScale / 100) + "px";
 
-  document.getElementById('mainframe').height = imgHeight * (previewScale / 100) + "px";
-  document.getElementById('mainframe').width = imgWidth * (previewScale / 100) + "px";
+  document.getElementById('mainframe').height = imgHeight * (previewScale / 100);
+  document.getElementById('mainframe').width = imgWidth * (previewScale / 100);
+
+  ReDraw();
 }
 
 function ReDraw(){
+  k = document.getElementById('_imgscale').value;
+  k = k / 100;
 
+  can = document.getElementById('mainframe').getContext('2d');
+  can.clearRect(0, 0, imgWidth * k, imgHeight * k);
+
+  for(i=0;i<_settings.length;i++){
+    let s = _settings[i];
+    sx = Math.floor(s.x * k);
+    sy = Math.floor(s.y * k);
+    ss = Math.floor(s.s * k);
+    sh = Math.floor(s.h * k);
+    sw = Math.floor(s.w * k);
+
+    if(s.shape == 'rectangle'){
+      can.fillStyle = s.fillColor;
+      can.fillRect(sx, sy, sw, sh);
+    }
+    else if (s.shape == 'circle') {
+      can.beginPath();
+      can.arc(sx, sy, sw, 0, 2 * Math.PI, false);
+      can.fillStyle = s.fillColor;
+      can.fill();
+    }
+    else if(s.shape == 'text'){
+      can.font = sw + "px Verdana";
+      can.fillStyle = s.fillColor;
+      can.fillText("Test", sx, sy);
+    }
+  }
 }
 
 window.addEventListener('load', function(){
@@ -532,37 +563,49 @@ document.addEventListener('keydown', function(evt) {
 });
 
 document.addEventListener('change', function(event) {
-  if (event.target.tagName.toLowerCase() === 'input' && event.target.type.toLowerCase() === 'number') {
-    if(event.target.id == '_imgwidth'){
-      imgWidth = event.target.value;
-      ResizePreview();
-    }
-    else if(event.target.id == '_imgheight'){
-      imgHeight = event.target.value;
-      ResizePreview();
-    }
-    else if(event.target.id == '_imgscale'){
-      ResizePreview();
-    }
-    else{
-      let shapeId = parseInt(event.target.id);
-      let shapeParam = event.target.id;
-        shapeParam = shapeParam.replace(/\d+pp/g, '');
-      let paramValue = event.target.value;
+  if (event.target.tagName.toLowerCase() === 'input') {
+    if(event.target.type.toLowerCase() === 'number'){
+      if(event.target.id == '_imgwidth'){
+        imgWidth = event.target.value;
+        ResizePreview();
+      }
+      else if(event.target.id == '_imgheight'){
+        imgHeight = event.target.value;
+        ResizePreview();
+      }
+      else if(event.target.id == '_imgscale'){
+        ResizePreview();
+      }
+      else{
+        let shapeId = event.target.id.replace(/\D/g, '');
+        let shapeParam = event.target.id.replace(/\d/g, '');
+        let paramValue = event.target.value;
 
-      _settings[shapeId][shapeParam] = parseInt(paramValue);
-      //console.log(JSON.stringify(_settings));
+        _settings[shapeId][shapeParam] = parseInt(paramValue);
+        ReDraw();
+      }
+    }
+    else if(event.target.type.toLowerCase() === 'color'){
+      colId = parseInt(event.target.id);
+
+      _settings[colId]['fillColor'] = event.target.value;
+      ReDraw();
     }
   }
+
   else if (event.target.tagName.toLowerCase() === 'select') {
     if(event.target.id.match(/\d+ss/g)){
       let shapeId = parseInt(event.target.id);
 
       ParamShape(event.target.value, shapeId+'pp');
-      _settings[shapeId].shape = event.target.value;
+      _settings[shapeId]['shape'] = event.target.value;
+      ReDraw();
     }
-    else{
+    else if(event.target.id.match(/\d+col/g)){
+      let colId = parseInt(event.target.id);
 
+      _settings[colId]['fillCollection'] = event.target.value;
+      ReDraw();
     }
   }
 });

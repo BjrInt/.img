@@ -38,8 +38,9 @@ input{
 	font-size: 20px;
 	line-height: 30px;
 	margin : 0;
-  display: inline-block;
   grid-column: 1;
+  height : 100vh;
+  overflow: auto;
 }
 
 #renderblock{
